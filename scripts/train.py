@@ -1,3 +1,19 @@
+"""
+Training script for the Transformer model.
+
+This script handles the complete training pipeline for a Transformer model on
+bilingual translation tasks. It includes:
+- Dataset loading and preprocessing
+- Tokenizer training and management
+- Model initialization and training
+- Checkpointing and resuming training
+- Validation and metric tracking
+- Integration with Weights & Biases for experiment tracking
+
+The script is designed for English-Italian translation using the OPUS Books dataset
+but can be adapted for other language pairs and datasets.
+"""
+
 from transformer.model import build_transformer
 from data.dataset import BilingualDataset, causal_mask
 from config.config import get_config, get_weights_file_path
@@ -13,7 +29,6 @@ from tqdm import tqdm
 import os
 from pathlib import Path
 
-# Huggingface datasets and tokenizers
 from datasets import load_dataset
 from tokenizers import Tokenizer
 from tokenizers.models import WordLevel
@@ -21,7 +36,6 @@ from tokenizers.trainers import WordLevelTrainer
 from tokenizers.pre_tokenizers import Whitespace
 
 import wandb
-
 import torchmetrics
 
 def greedy_decode(model, source, source_mask, tokenizer_src, tokenizer_tgt, max_len, device):
@@ -36,13 +50,13 @@ def greedy_decode(model, source, source_mask, tokenizer_src, tokenizer_tgt, max_
         if decoder_input.size(1) == max_len:
             break
 
-        # build mask for target
+        # building mask for target
         decoder_mask = causal_mask(decoder_input.size(1)).type_as(source_mask).to(device)
 
-        # calculate output
+        # calculating output
         out = model.decode(encoder_output, source_mask, decoder_input, decoder_mask)
 
-        # get next token
+        # getting next token
         prob = model.project(out[:, -1])
         _, next_word = torch.max(prob, dim=1)
         decoder_input = torch.cat(
@@ -62,15 +76,8 @@ def run_validation(model, validation_ds, tokenizer_src, tokenizer_tgt, max_len, 
     source_texts = []
     expected = []
     predicted = []
-
-    try:
-        # get the console window width
-        with os.popen('stty size', 'r') as console:
-            _, console_width = console.read().split()
-            console_width = int(console_width)
-    except:
-        # If we can't get the console width, use 80 as default
-        console_width = 80
+    
+    console_width = 80
 
     with torch.no_grad():
         for batch in validation_ds:
@@ -126,7 +133,6 @@ def get_all_sentences(ds, lang):
 def get_or_build_tokenizer(config, ds, lang):
     tokenizer_path = Path(config['tokenizer_file'].format(lang))
     if not Path.exists(tokenizer_path):
-        # Most code taken from: https://huggingface.co/docs/tokenizers/quicktour
         tokenizer = Tokenizer(WordLevel(unk_token="[UNK]"))
         tokenizer.pre_tokenizer = Whitespace()
         trainer = WordLevelTrainer(special_tokens=["[UNK]", "[PAD]", "[SOS]", "[EOS]"], min_frequency=2)
@@ -137,7 +143,7 @@ def get_or_build_tokenizer(config, ds, lang):
     return tokenizer
 
 def get_ds(config):
-    # It only has the train split, so we divide it overselves
+    # Since it only has the train split, we will divide it overselves
     ds_raw = load_dataset('opus_books', f"{config['lang_src']}-{config['lang_tgt']}", split='train')
 
     # Build tokenizers

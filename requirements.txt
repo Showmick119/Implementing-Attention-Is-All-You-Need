@@ -1,12 +1,32 @@
-torch==2.0.1
-tqdm>=4.65.0
-pytest>=7.3.1
-torchvision==0.15.2 
-torchaudio==2.0.2
-torchtext==0.15.2
-datasets==2.15.0
-tokenizers==0.13.3
-torchmetrics==1.0.3
-tensorboard==2.13.0
-altair==5.1.1
-wandb==0.15.9
+# Core PyTorch and ML libraries
+torch>=2.1.0
+torchvision>=0.16.0
+torchaudio>=2.1.0
+torchtext>=0.16.0
+
+# Data processing and tokenization
+datasets>=2.16.0
+tokenizers>=0.15.0
+
+# Training utilities and metrics
+tqdm>=4.66.0
+torchmetrics>=1.2.0
+
+# Visualization and logging
+matplotlib>=3.7.0
+seaborn>=0.12.0
+tensorboard>=2.15.0
+wandb>=0.16.0
+
+# Jupyter notebook support
+ipywidgets>=8.1.0
+jupyter>=1.0.0
+
+# Data visualization for notebooks
+altair>=5.2.0
+
+# Development and testing
+pytest>=7.4.0
+
+# Additional utilities for Colab
+pathlib2>=2.3.7
