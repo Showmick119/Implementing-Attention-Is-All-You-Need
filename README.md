@@ -1,133 +1,200 @@
 # Transformer Implementation from Scratch
 
-This repository contains a PyTorch implementation of the Transformer architecture as described in the paper ["Attention Is All You Need"](https://arxiv.org/abs/1706.03762). The implementation follows the original paper closely while maintaining clean, modular, and well-documented code.
+A complete PyTorch implementation of the Transformer architecture from the seminal paper ["Attention Is All You Need"](https://arxiv.org/abs/1706.03762) by Vaswani et al. This implementation is designed for English-Italian translation tasks and includes comprehensive training and inference pipelines.
 
-## Architecture Overview
+## 🏗️ Architecture Overview
 
-The Transformer model consists of an encoder-decoder architecture that uses self-attention mechanisms to process sequential data. Here's a high-level overview of the key components:
+This implementation includes all core components of the Transformer architecture:
 
-```
-Encoder:
-├── Multi-Head Self-Attention
-├── Feed-Forward Network
-└── Layer Normalization & Residual Connections
+- **Input Embeddings**: Token embeddings with scaling by √d_model
+- **Positional Encoding**: Sinusoidal position embeddings
+- **Multi-Head Attention**: Scaled dot-product attention with multiple heads
+- **Feed-Forward Networks**: Position-wise fully connected layers
+- **Layer Normalization**: Applied before each sub-layer (pre-norm)
+- **Residual Connections**: Skip connections around each sub-layer
+- **Encoder-Decoder Architecture**: Complete sequence-to-sequence model
 
-Decoder:
-├── Masked Multi-Head Self-Attention
-├── Multi-Head Cross-Attention
-├── Feed-Forward Network
-└── Layer Normalization & Residual Connections
-```
-
-### Key Features
-
-- Full implementation of the Transformer architecture
-- Modular, class-based design using PyTorch
-- Training with label smoothing and learning rate scheduler
-- Proper masking implementation (padding + look-ahead)
-- No external transformer libraries
-- Colab-compatible training and testing notebooks
-- Comprehensive test suite
-
-## Project Structure
+## 📁 Project Structure
 
 ```
-transformer-from-scratch/
-├── notebooks/          # Jupyter notebooks for training and testing
-├── transformer/        # Main transformer implementation
-├── data/              # Training data and vocabulary
-├── scripts/           # Training and evaluation scripts
-└── tests/             # Unit tests
+├── config/
+│   └── config.py              # Model configuration and hyperparameters
+├── data/
+│   └── dataset.py             # Bilingual dataset class with tokenization
+├── transformer/
+│   └── model.py               # Complete Transformer implementation
+├── scripts/
+│   └── train.py               # Training script with WandB integration
+├── notebooks/
+│   ├── transformer_train.ipynb      # Interactive training notebook
+│   ├── transformer_inference.ipynb  # Inference and testing notebook
+│   └── attention_visualization.ipynb # Attention pattern visualization
+├── requirements.txt           # Project dependencies
+├── README.md                 # Project documentation
+└── .gitignore               # Git ignore patterns
 ```
 
-## Installation
+## 🚀 Quick Start
 
+### Installation
+
+1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/transformer-from-scratch.git
-cd transformer-from-scratch
+git clone <repository-url>
+cd transformer-implementation
+```
+
+2. Install dependencies:
+```bash
 pip install -r requirements.txt
 ```
 
-## Usage
-
 ### Training
 
-1. Open `notebooks/train.ipynb` in Google Colab
-2. Follow the notebook instructions to train the model
-3. Alternatively, use the CLI:
-   ```bash
-   python scripts/train.py --config config.json
-   ```
+#### Option 1: Jupyter Notebooks (Recommended for Colab)
+1. Open `notebooks/transformer_train.ipynb` in Google Colab
+2. Follow the step-by-step training process
+3. Monitor training progress with built-in visualizations
 
-### Testing
-
-1. Open `notebooks/test.ipynb` in Google Colab
-2. Load a trained model and generate translations
-3. Or use the CLI:
-   ```bash
-   python scripts/evaluate.py --model path/to/model.pth --input "Source text"
-   ```
-
-## Model Configuration
-
-The model can be configured through the `TransformerConfig` class in `config.py`. Key hyperparameters include:
-
-- `vocab_size`: Size of the vocabulary
-- `max_seq_len`: Maximum sequence length
-- `d_model`: Model dimension (512 in paper)
-- `num_heads`: Number of attention heads (8 in paper)
-- `num_layers`: Number of encoder/decoder layers (6 in paper)
-- `d_ff`: Feed-forward network dimension (2048 in paper)
-- `dropout`: Dropout rate (0.1 in paper)
-
-## Implementation Details
-
-### Attention Mechanism
-
-The multi-head attention mechanism is implemented as described in the paper:
-
-```python
-Attention(Q, K, V) = softmax(QK^T/√d_k)V
+#### Option 2: Command Line
+```bash
+python scripts/train.py
 ```
 
-### Positional Encoding
+### Inference
 
-Uses sinusoidal position embeddings:
+Use the `notebooks/transformer_inference.ipynb` notebook to:
+- Load trained models
+- Perform translation inference
+- Visualize attention patterns
+- Analyze model behavior
+
+## 🔧 Configuration
+
+The model configuration is managed in `config/config.py`:
 
 ```python
-PE(pos, 2i) = sin(pos/10000^(2i/d_model))
-PE(pos, 2i+1) = cos(pos/10000^(2i/d_model))
-```
-
-### Label Smoothing
-
-Implements label smoothing as described in the paper to prevent overconfident predictions.
-
-## Evaluation
-
-The model can be evaluated using:
-- BLEU score for translation tasks
-- Perplexity for language modeling
-- Custom metrics can be added in `utils.py`
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Citation
-
-If you use this implementation in your research, please cite:
-
-```bibtex
-@article{vaswani2017attention,
-  title={Attention is all you need},
-  author={Vaswani, Ashish and others},
-  journal={Advances in neural information processing systems},
-  volume={30},
-  year={2017}
+{
+    "batch_size": 8,           # Training batch size
+    "num_epochs": 20,          # Number of training epochs
+    "lr": 1e-4,               # Learning rate
+    "seq_len": 350,           # Maximum sequence length
+    "d_model": 512,           # Model dimension
+    "lang_src": "en",         # Source language (English)
+    "lang_tgt": "it",         # Target language (Italian)
+    "model_folder": "weights", # Model checkpoint directory
+    "preload": None,          # Path to pretrained model
+    "experiment_name": "runs/tmodel"  # Experiment tracking name
 }
 ```
+
+## 📊 Dataset
+
+The implementation uses the **OPUS Books** dataset for English-Italian translation:
+- Automatically downloaded via HuggingFace datasets
+- Includes proper tokenization with special tokens ([SOS], [EOS], [PAD])
+- Handles variable-length sequences with padding
+- Creates appropriate attention masks for training
+
+## 🎯 Features
+
+### Core Implementation
+- ✅ Complete Transformer architecture from scratch
+- ✅ Multi-head self-attention and cross-attention
+- ✅ Positional encoding with sinusoidal functions
+- ✅ Layer normalization and residual connections
+- ✅ Proper masking for attention mechanisms
+
+### Training Features
+- ✅ Adam optimizer with custom learning rate scheduling
+- ✅ Gradient clipping for training stability
+- ✅ Checkpointing and resume training
+- ✅ Weights & Biases integration for experiment tracking
+- ✅ BLEU score evaluation
+- ✅ Validation loss monitoring
+
+### Visualization
+- ✅ Attention pattern visualization
+- ✅ Training progress plots
+- ✅ Loss and metric tracking
+- ✅ Interactive Jupyter notebooks
+
+## 🧠 Model Details
+
+### Architecture Specifications
+- **Model Dimension (d_model)**: 512
+- **Feed-Forward Dimension**: 2048
+- **Number of Heads**: 8
+- **Number of Layers**: 6 (encoder) + 6 (decoder)
+- **Vocabulary Size**: Dynamic (based on tokenizer)
+- **Maximum Sequence Length**: 350 tokens
+
+### Key Implementation Details
+- **Attention Mechanism**: Scaled dot-product attention
+- **Positional Encoding**: Sinusoidal functions (sin/cos)
+- **Normalization**: Layer normalization (pre-norm configuration)
+- **Dropout**: Applied throughout the model for regularization
+- **Weight Initialization**: Xavier/Glorot initialization
+
+## 📈 Training Process
+
+1. **Data Preprocessing**: Tokenization and sequence preparation
+2. **Model Initialization**: Transformer model with specified configuration
+3. **Training Loop**: Forward pass, loss calculation, backpropagation
+4. **Validation**: BLEU score evaluation on validation set
+5. **Checkpointing**: Model state saving for resuming training
+6. **Monitoring**: Real-time metrics via Weights & Biases
+
+## 🔍 Evaluation
+
+The model is evaluated using:
+- **BLEU Score**: Standard metric for translation quality
+- **Validation Loss**: Cross-entropy loss on held-out data
+- **Attention Visualization**: Qualitative analysis of attention patterns
+
+## 💻 Google Colab Support
+
+The implementation is fully compatible with Google Colab:
+- All notebooks run seamlessly in Colab environment
+- Automatic GPU detection and utilization
+- Pre-configured for easy experimentation
+- No local setup required
+
+## 🛠️ Customization
+
+### For Different Language Pairs
+1. Update `lang_src` and `lang_tgt` in configuration
+2. Ensure dataset availability for the language pair
+3. Adjust vocabulary size if needed
+
+### For Different Datasets
+1. Modify the dataset loading in `scripts/train.py`
+2. Ensure data format compatibility with `BilingualDataset` class
+3. Update tokenizer training if needed
+
+### Model Architecture Changes
+1. Adjust hyperparameters in `config/config.py`
+2. Modify model architecture in `transformer/model.py`
+3. Update training script accordingly
+
+## 📚 References
+
+- [Attention Is All You Need](https://arxiv.org/abs/1706.03762) - Original Transformer paper
+- [The Illustrated Transformer](http://jalammar.github.io/illustrated-transformer/) - Visual explanation
+- [The Annotated Transformer](http://nlp.seas.harvard.edu/2018/04/03/attention.html) - Detailed implementation guide
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit pull requests or open issues for:
+- Bug fixes
+- Performance improvements
+- Additional features
+- Documentation enhancements
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+This implementation is based on educational tutorials and the original Transformer paper. Special thanks to the PyTorch team and the open-source ML community for providing excellent tools and resources.
