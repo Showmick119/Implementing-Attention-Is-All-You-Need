@@ -69,7 +69,7 @@ def latest_weights_file_path(config) -> Union[str, None]:
     Returns:
         str or None: Path to the latest weights file, or None if no weights found
     """
-    model_folder = f"{config['datasource']}_{config['model_folder']}"
+    model_folder = config['model_folder']
     model_filename = f"{config['model_basename']}*"
     weights_files = list(Path(model_folder).glob(model_filename))
     if len(weights_files) == 0:
