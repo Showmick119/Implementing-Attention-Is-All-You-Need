@@ -131,7 +131,7 @@ The implementation uses the **OPUS Books** dataset for English-Italian translati
 ## 🔍 Evaluation
 
 The model is evaluated using:
-- **BLEU Score**: Standard metric for translation quality
+- **BLEU Score, WER, CER**: Standard metrics for translation quality
 - **Attention Visualization**: Qualitative analysis of attention patterns
 
 ## 💻 Google Colab Support
