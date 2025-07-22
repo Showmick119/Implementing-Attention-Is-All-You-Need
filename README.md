@@ -2,7 +2,7 @@
 
 A complete PyTorch implementation of the Transformer architecture from the seminal paper ["Attention Is All You Need"](https://arxiv.org/abs/1706.03762) by Vaswani et al. This implementation is designed for English-Italian translation tasks and includes comprehensive training and inference pipelines.
 
-## 🏗️ Architecture Overview
+## Architecture Overview
 
 This implementation includes all core components of the Transformer architecture:
 
@@ -14,7 +14,7 @@ This implementation includes all core components of the Transformer architecture
 - **Residual Connections**: Skip connections around each sub-layer
 - **Encoder-Decoder Architecture**: Complete sequence-to-sequence model
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 ├── config/
@@ -35,7 +35,7 @@ This implementation includes all core components of the Transformer architecture
 └── .gitignore               # Git ignore patterns
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Installation
 
@@ -75,7 +75,7 @@ Use the `notebooks/attention_visualization.ipynb` notebook to:
 - Visualize attention patterns
 - Analyze model behavior
 
-## 🔧 Configuration
+## Configuration
 
 The model configuration is managed in `config/config.py`:
 
@@ -94,7 +94,7 @@ The model configuration is managed in `config/config.py`:
 }
 ```
 
-## 📊 Dataset
+## Dataset
 
 The implementation uses the **OPUS Books** dataset for English-Italian translation:
 - Automatically downloaded via HuggingFace datasets
@@ -102,7 +102,7 @@ The implementation uses the **OPUS Books** dataset for English-Italian translati
 - Handles variable-length sequences with padding
 - Creates appropriate attention masks for training
 
-## 🧠 Model Details
+## Model Details
 
 ### Architecture Specifications
 - **Model Dimension (d_model)**: 512
@@ -119,7 +119,7 @@ The implementation uses the **OPUS Books** dataset for English-Italian translati
 - **Dropout**: Applied throughout the model for regularization
 - **Weight Initialization**: Xavier initialization
 
-## 📈 Training Process
+## Training Process
 
 1. **Data Preprocessing**: Tokenization and sequence preparation
 2. **Model Initialization**: Transformer model with specified configuration
@@ -128,13 +128,13 @@ The implementation uses the **OPUS Books** dataset for English-Italian translati
 5. **Checkpointing**: Model state saving for resuming training
 6. **Monitoring**: Real-time metrics via Weights & Biases
 
-## 🔍 Evaluation
+## Evaluation
 
 The model is evaluated using:
 - **BLEU Score, WER, CER**: Standard metrics for translation quality
 - **Attention Visualization**: Qualitative analysis of attention patterns
 
-## 💻 Google Colab Support
+## Google Colab Support
 
 The implementation is fully compatible with Google Colab:
 - All notebooks run seamlessly in Colab environment
@@ -142,7 +142,7 @@ The implementation is fully compatible with Google Colab:
 - Pre-configured for easy experimentation
 - No local setup required
 
-## 🛠️ Customization
+## Customization
 
 ### For Different Language Pairs
 1. Update `lang_src` and `lang_tgt` in configuration
@@ -159,13 +159,13 @@ The implementation is fully compatible with Google Colab:
 2. Modify model architecture in `transformer/model.py`
 3. Update training script accordingly
 
-## 📚 References
+## References
 
 - [Attention Is All You Need](https://arxiv.org/abs/1706.03762) - Original Transformer paper
 - [The Illustrated Transformer](http://jalammar.github.io/illustrated-transformer/) - Visual explanation
 - [The Annotated Transformer](http://nlp.seas.harvard.edu/2018/04/03/attention.html) - Detailed implementation guide
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please feel free to submit pull requests or open issues for:
 - Bug fixes
@@ -173,10 +173,10 @@ Contributions are welcome! Please feel free to submit pull requests or open issu
 - Additional features
 - Documentation enhancements
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 This implementation is based on the original Transformer paper. Special thanks to the PyTorch team and the open-source ML community for providing excellent tools and resources.
