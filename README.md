@@ -25,6 +25,7 @@ This implementation includes all core components of the Transformer architecture
 │   └── model.py               # Complete Transformer implementation
 ├── scripts/
 │   └── train.py               # Training script with WandB integration
+│   └── translate.py           # Translation inference utilities
 ├── notebooks/
 │   ├── transformer_train.ipynb      # Interactive training notebook
 │   ├── transformer_inference.ipynb  # Inference and testing notebook
@@ -40,8 +41,8 @@ This implementation includes all core components of the Transformer architecture
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
-cd transformer-implementation
+git clone https://github.com/Showmick119/Implementing-Attention-Is-All-You-Need.git
+cd Implementing-Attention-Is-All-You-Need
 ```
 
 2. Install dependencies:
@@ -65,7 +66,12 @@ python scripts/train.py
 
 Use the `notebooks/transformer_inference.ipynb` notebook to:
 - Load trained models
-- Perform translation inference
+- Perform translation inference on custom inputs
+
+### Attention Visualization
+
+Use the `notebooks/attention_visualization.ipynb` notebook to:
+- Load trained models
 - Visualize attention patterns
 - Analyze model behavior
 
@@ -96,29 +102,6 @@ The implementation uses the **OPUS Books** dataset for English-Italian translati
 - Handles variable-length sequences with padding
 - Creates appropriate attention masks for training
 
-## 🎯 Features
-
-### Core Implementation
-- ✅ Complete Transformer architecture from scratch
-- ✅ Multi-head self-attention and cross-attention
-- ✅ Positional encoding with sinusoidal functions
-- ✅ Layer normalization and residual connections
-- ✅ Proper masking for attention mechanisms
-
-### Training Features
-- ✅ Adam optimizer with custom learning rate scheduling
-- ✅ Gradient clipping for training stability
-- ✅ Checkpointing and resume training
-- ✅ Weights & Biases integration for experiment tracking
-- ✅ BLEU score evaluation
-- ✅ Validation loss monitoring
-
-### Visualization
-- ✅ Attention pattern visualization
-- ✅ Training progress plots
-- ✅ Loss and metric tracking
-- ✅ Interactive Jupyter notebooks
-
 ## 🧠 Model Details
 
 ### Architecture Specifications
@@ -134,7 +117,7 @@ The implementation uses the **OPUS Books** dataset for English-Italian translati
 - **Positional Encoding**: Sinusoidal functions (sin/cos)
 - **Normalization**: Layer normalization (pre-norm configuration)
 - **Dropout**: Applied throughout the model for regularization
-- **Weight Initialization**: Xavier/Glorot initialization
+- **Weight Initialization**: Xavier initialization
 
 ## 📈 Training Process
 
@@ -149,7 +132,6 @@ The implementation uses the **OPUS Books** dataset for English-Italian translati
 
 The model is evaluated using:
 - **BLEU Score**: Standard metric for translation quality
-- **Validation Loss**: Cross-entropy loss on held-out data
 - **Attention Visualization**: Qualitative analysis of attention patterns
 
 ## 💻 Google Colab Support
@@ -197,4 +179,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-This implementation is based on educational tutorials and the original Transformer paper. Special thanks to the PyTorch team and the open-source ML community for providing excellent tools and resources.
+This implementation is based on the original Transformer paper. Special thanks to the PyTorch team and the open-source ML community for providing excellent tools and resources.
